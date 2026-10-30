@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Devops CI/CD Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Prod CI/CD Dashboard</h1>
+        <p class="subtitle">
+            Jenkins + Docker + AWS + Kubernetes
+        </p>
+
+        <div class="status-card">
+            <h2>Backend Application Status</h2>
+            <p id="status"> Checking backend connection...</p>
+                <button onclick="checkbackend()">
+                    Check Backend Health
+                </button>
+            </p>
+        </div>
+
+        <div class="info-card">
+            <h2>Application Information</h2>
+            <p id="app-info"> Loading application information...</p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
