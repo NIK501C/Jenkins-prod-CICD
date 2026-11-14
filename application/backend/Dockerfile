@@ -7,14 +7,13 @@ WORKDIR /app
 # Copy required dependencies
 COPY requirements.txt .
 
-# Install pythondependencies
+# Install python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application source code
 COPY app.py .
 
 # Expose the Flask Port
-
 EXPOSE 5000
 
 # Run the application

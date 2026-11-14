@@ -1,0 +1,27 @@
+services:
+
+  backend:
+    build:
+      context: /application/backend
+    image: jenkins-backend:v1
+    container_name: jenkins-backend-container
+    expose:
+      - "5000"
+    networks:
+      - jenkins-network
+
+  frontend:
+    build:
+      context: /application/frontend
+    image: jenkins-frontend:v1
+    container_name: jenkins-frontend-container
+    ports:
+      - "8000:80"
+    depends_on:
+      - backend
+    networks:
+      - jenkins-network
+
+networks:
+  jenkins-network:
+    driver: bridge
