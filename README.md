@@ -111,3 +111,5 @@ jenkins-prod-cicd/
 ## Project Goal
 
 Build a production-style CI/CD workflow that demonstrates practical DevOps engineering skills, automation, infrastructure provisioning, container orchestration, security, and monitoring.
+
+Testing Jenkins automatically CI/CD trigger with github webhook.
