@@ -7,6 +7,11 @@ FROM jenkins/jenkins:lts
 # Give temporary root accesss to install docker cli
 USER root
 
+# Install Python and pip
+RUN apt-get update && \
+    apt-get install -y python3 python3-pip python3-venv && \
+    rm -rf /var/lib/apt/lists/*
+
 # copy docker cli from docker cli image to jenkins image
 COPY --from=docker-cli /usr/local/bin/docker /usr/local/bin/docker
 
