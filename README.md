@@ -2,7 +2,7 @@
 
 An end-to-end DevOps portfolio project demonstrating automated application build, testing, containerization, security scanning, and deployment using Jenkins and AWS.
 
-## Project Overview
+# Project Overview
 
 This project aims to build a production-style CI/CD pipeline for a Python Flask backend and a frontend dashboard.
 
