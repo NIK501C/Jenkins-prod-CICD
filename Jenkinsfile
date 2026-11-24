@@ -1,9 +1,10 @@
+
 pipeline {
     agent any
 
     stages {
 
-        stage ("Welcome") {
+        stage("Welcome") {
             steps {
                 echo "Welcome to Jenkins prod CI/CD project"
             }
@@ -18,14 +19,19 @@ pipeline {
 
         stage('Backend Unit Tests') {
             steps {
+                echo 'Building backend test image'
+
+                sh '''
+                    docker build \
+                        -f application/backend/Dockerfile.test \
+                        -t backend-test:${BUILD_NUMBER} \
+                        application/backend
+                '''
+
                 echo 'Running backend unit tests'
 
                 sh '''
-                    docker run --rm \
-                    -v "$WORKSPACE/application/backend:/app" \
-                    -w /app \
-                    python:3.12-slim \
-                    sh -c "pip install --no-cache-dir -r requirements.txt && pytest -v"
+                    docker run --rm backend-test:${BUILD_NUMBER}
                 '''
             }
         }
