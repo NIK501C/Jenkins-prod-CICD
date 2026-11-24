@@ -35,6 +35,28 @@ pipeline {
                 '''
             }
         }
+
+        stage('Build Docker Images') {
+            steps {
+                echo 'Building backend Docker image'
+
+                sh '''
+                    docker build \
+                        -f application/backend/Dockerfile \
+                        -t jenkins-backend:${BUILD_NUMBER} \
+                        application/backend
+                '''
+
+                echo 'Building frontend Docker image'
+
+                sh '''
+                    docker build \
+                        -f application/frontend/Dockerfile \
+                        -t jenkins-frontend:${BUILD_NUMBER} \
+                        application/frontend
+                '''
+            }
+        }
     }
 
     post {
