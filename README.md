@@ -1,115 +1,81 @@
-# Production-Grade Jenkins CI/CD Pipeline on AWS
-
-An end-to-end DevOps portfolio project demonstrating automated application build, testing, containerization, security scanning, and deployment using Jenkins and AWS.
+A sample web application demonstrating an automated Jenkins CI pipeline integrated with GitHub and Docker.
 
 # Project Overview
 
-This project aims to build a production-style CI/CD pipeline for a Python Flask backend and a frontend dashboard.
+This project contains a Flask backend and an Nginx frontend. Jenkins is configured to run the pipeline when changes are pushed to the GitHub repository.
 
-The pipeline will automate application testing, Docker image creation, vulnerability scanning, and deployment to Kubernetes on Amazon EKS.
+The pipeline checks out the source code, runs backend unit tests, and builds Docker images for the backend and frontend.
 
-## Technology Stack
+The application was also run locally with Docker Compose to verify that the frontend can communicate with the backend.
 
-- **CI/CD:** Jenkins
-- **Cloud:** AWS
-- **Infrastructure as Code:** Terraform
-- **Containers:** Docker
-- **Container Registry:** Amazon ECR
-- **Orchestration:** Kubernetes, Amazon EKS
-- **Package Management:** Helm
-- **Programming:** Python, JavaScript, Shell Scripting
-- **Testing:** Pytest
-- **Security:** SonarQube, Trivy
-- **Monitoring:** Prometheus, Grafana, CloudWatch
-- **Version Control:** Git, GitHub
+# Architecture
 
-## Current Application
+Developer
+   |
+   | Push code
+   v
+GitHub Repository
+   |
+   | Automatic trigger
+   v
+Jenkins Pipeline
+   |
+   +--> Checkout source code
+   |
+   +--> Run backend unit tests
+   |
+   +--> Build backend Docker image
+   |
+   +--> Build frontend Docker image
 
-### Backend
-- Python Flask REST API
-- Health-check endpoint
-- Application information endpoint
-- Automated tests using Pytest
+# Application flow when running locally:
 
-### Frontend
-- HTML, CSS, and JavaScript dashboard
-- Backend health monitoring
-- Displays application information
-- Communicates with the Flask backend
+Browser
+   |
+   | http://localhost:8000
+   v
+Nginx Frontend
+   |
+   | /health and /api/info
+   v
+Flask Backend
 
-## API Endpoints
+# Jenkins Pipeline
 
-| Endpoint | Description |
-|---|---|
-| `/` | Backend welcome message |
-| `/health` | Backend health status |
-| `/api/info` | Application information |
+The Jenkinsfile defines these stages:
 
-## Run Locally
+Welcome — prints a pipeline start message.
 
-### Backend
+Checkout — verifies the checked-out source revision. Jenkins checks out the repository from the configured SCM source.
 
-```bash
-cd application/backend
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-python app.py
-```
+Backend Unit Tests — builds the backend test image and runs the Pytest suite.
 
-Backend runs at `http://localhost:5000`.
+Build Docker Images — builds the backend and frontend application images.
 
-### Run Backend Tests
+The pipeline uses the Jenkins build number as the Docker image tag, for example:
 
-```bash
-python -m pytest -v
-```
+jenkins-backend:<BUILD_NUMBER>
+jenkins-frontend:<BUILD_NUMBER>
 
-### Frontend
+The pipeline is configured to run automatically when code is pushed to GitHub.
 
-Open another terminal:
+# Start the application
 
-```bash
-cd application/frontend
-python -m http.server 8000
-```
+From the repository root, run these commands in PowerShell:
 
-Open `http://localhost:8000` in your browser.
+$env:BUILD_NUMBER = "local"
+docker compose up --build -d
 
-## Project Structure
+# Open the frontend in your browser:
 
-```text
-jenkins-prod-cicd/
-├── application/
-│   ├── backend/
-│   └── frontend/
-├── docker/
-├── helm/
-├── kubernetes/
-├── monitoring/
-├── scripts/
-└── terraform/
-```
+http://localhost:8000
 
-## Planned Implementation Roadmap
+The frontend displays the backend health status and application information.
 
-- [x] Develop Flask backend
-- [x] Create frontend dashboard
-- [x] Implement backend API communication
-- [x] Add backend unit tests
-- [x] Push application code to GitHub
-- [ ] Containerize frontend and backend using Docker
-- [ ] Configure Jenkins CI/CD pipeline
-- [ ] Provision AWS infrastructure using Terraform
-- [ ] Push Docker images to Amazon ECR
-- [ ] Deploy applications to Amazon EKS
-- [ ] Implement Helm-based deployments
-- [ ] Integrate SonarQube and Trivy
-- [ ] Configure Prometheus and Grafana monitoring
-- [ ] Implement deployment verification and rollback
+# Check the containers
 
-## Project Goal
+docker compose ps
 
-Build a production-style CI/CD workflow that demonstrates practical DevOps engineering skills, automation, infrastructure provisioning, container orchestration, security, and monitoring.
+# Stop the application
 
-Testing Jenkins automatically CI/CD trigger with github webhook.
+docker compose down

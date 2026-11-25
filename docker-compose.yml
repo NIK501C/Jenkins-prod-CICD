@@ -1,9 +1,10 @@
-services:
 
+services:
   backend:
+    image: jenkins-backend:${BUILD_NUMBER:-latest}
     build:
-      context: /application/backend
-    image: jenkins-backend:v1
+      context: ./application/backend
+      dockerfile: Dockerfile
     container_name: jenkins-backend-container
     expose:
       - "5000"
@@ -11,9 +12,10 @@ services:
       - jenkins-network
 
   frontend:
+    image: jenkins-frontend:${BUILD_NUMBER:-latest}
     build:
-      context: /application/frontend
-    image: jenkins-frontend:v1
+      context: ./application/frontend
+      dockerfile: Dockerfile
     container_name: jenkins-frontend-container
     ports:
       - "8000:80"
